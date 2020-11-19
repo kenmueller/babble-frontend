@@ -34,13 +34,13 @@ const AuthButton = ({ className }: AuthButtonProps) => {
 	}, [currentUser, isLoading, setIsLoading])
 	
 	useEffect(() => {
-		if (!currentUser)
+		if (isLoading || !currentUser)
 			return setSlug(null)
 		
 		getUser(currentUser.uid)
 			.then(({ slug }) => setSlug(slug))
 			.catch(({ message }) => toast.error(message))
-	}, [currentUser, setSlug])
+	}, [isLoading, currentUser, setSlug])
 	
 	return slug
 		? (

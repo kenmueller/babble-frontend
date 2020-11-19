@@ -3,6 +3,7 @@ import { NextPage } from 'next'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import ProgressBar from 'nextjs-progressbar'
+import { ToastContainer } from 'react-toastify'
 import { config } from '@fortawesome/fontawesome-svg-core'
 
 import registerServiceWorker from 'lib/registerServiceWorker'
@@ -32,6 +33,7 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
 			<ProgressBar color="white" />
 			<Navbar />
 			<Component {...pageProps} />
+			<ToastContainer />
 		</>
 	)
 }
