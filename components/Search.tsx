@@ -20,7 +20,7 @@ const Search = ({ className }: SearchProps) => {
 		<form className={cx(styles.root, className)}>
 			<input
 				className={styles.input}
-				placeholder="rooms"
+				placeholder="find a room"
 				value={query}
 				onChange={onQueryChange}
 			/>

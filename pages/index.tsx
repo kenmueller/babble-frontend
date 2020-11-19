@@ -8,7 +8,9 @@ const Home: NextPage = () => (
 		<Head>
 			<title key="title">babble</title>
 		</Head>
-		<h1>babble</h1>
+		<h1 className={styles.title}>
+			babble: find a room
+		</h1>
 	</>
 )
 
