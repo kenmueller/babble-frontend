@@ -1,6 +1,10 @@
+import { useEffect } from 'react'
 import { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
+import { io as IO } from 'socket.io-client'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
 import NotFound from 'pages/404'
 import Room from 'models/Room'
@@ -8,10 +12,9 @@ import User from 'models/User'
 import getRoom from 'lib/getRoom'
 import getUser from 'lib/getUser'
 import useCurrentUser from 'hooks/useCurrentUser'
+import LocalVideo from 'components/LocalVideo'
 
 import styles from 'styles/Room.module.scss'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
 export interface RoomPageProps {
 	room: Room | null
@@ -24,9 +27,18 @@ const RoomPage: NextPage<RoomPageProps> = ({ room, owner }) => {
 	
 	const currentUser = useCurrentUser()
 	
+	useEffect(() => {
+		const io = IO(process.env.NEXT_PUBLIC_API_URL, {
+			query: `room=${room.slug}`
+		})
+		
+		// io.on('join', )
+	}, [])
+	
 	return (
 		<>
 			<Head>
+				<link key="api-preconnect" rel="preconnect" href={process.env.NEXT_PUBLIC_API_URL} />
 				<title key="title">{room.name} - babble</title>
 			</Head>
 			<header className={styles.header}>
@@ -50,6 +62,7 @@ const RoomPage: NextPage<RoomPageProps> = ({ room, owner }) => {
 					: <span className={styles.ownerName} aria-disabled>anonymous</span>
 				}
 			</p>
+			<LocalVideo />
 		</>
 	)
 }
