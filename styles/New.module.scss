@@ -3,11 +3,9 @@
 	color: white;
 }
 
-.nameInput {
-	margin-top: 20px;
-}
-
-.descriptionInput {
+.nameInput,
+.descriptionInput,
+.saveButton {
 	margin-top: 20px;
 }
 
@@ -27,8 +25,4 @@
 
 .slug {
 	color: white;
-}
-
-.saveButton {
-	margin-top: 20px;
 }

@@ -1,13 +1,17 @@
 import { NextPage } from 'next'
 import Head from 'next/head'
+import Link from 'next/link'
 
 import NotFound from 'pages/404'
 import Room from 'models/Room'
 import User from 'models/User'
 import getRoom from 'lib/getRoom'
 import getUser from 'lib/getUser'
+import useCurrentUser from 'hooks/useCurrentUser'
 
 import styles from 'styles/Room.module.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
 export interface RoomPageProps {
 	room: Room | null
@@ -18,12 +22,34 @@ const RoomPage: NextPage<RoomPageProps> = ({ room, owner }) => {
 	if (!room)
 		return <NotFound />
 	
+	const currentUser = useCurrentUser()
+	
 	return (
 		<>
 			<Head>
 				<title key="title">{room.name} - babble</title>
 			</Head>
-			<h1 className={styles.name}>{room.name}</h1>
+			<header className={styles.header}>
+				<h1 className={styles.name}>{room.name}</h1>
+				{currentUser?.uid === room.owner && (
+					<Link href={`/${room.slug}/edit`}>
+						<a className={styles.edit}>
+							<FontAwesomeIcon className={styles.editIcon} icon={faEdit} />
+							edit
+						</a>
+					</Link>
+				)}
+			</header>
+			<p className={styles.owner}>
+				By {owner
+					? (
+						<Link href={`/u/${owner.slug}`}>
+							<a className={styles.ownerName}>{owner.name}</a>
+						</Link>
+					)
+					: <span className={styles.ownerName} aria-disabled>anonymous</span>
+				}
+			</p>
 		</>
 	)
 }
