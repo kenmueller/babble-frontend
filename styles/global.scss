@@ -1,3 +1,8 @@
+@use '~@fortawesome/fontawesome-svg-core/styles';
+@use '~react-toastify/dist/ReactToastify';
+
+@use 'variables' as *;
+
 *,
 ::before,
 ::after {
@@ -7,4 +12,26 @@
 	font-family: Muli, Arial, Helvetica, sans-serif;
 	border: none;
 	outline: none;
+}
+
+body {
+	overscroll-behavior: none;
+	max-width: $max-width;
+	margin: 0 auto;
+	padding: ($navbar-height + $body-padding) $body-padding $body-padding;
+	background: black;
+}
+
+button {
+	cursor: pointer;
+	
+	&:disabled {
+		cursor: default;
+	}
+}
+
+.Toastify__toast {
+	font-weight: bold;
+	padding-left: 16px;
+	border-radius: 5px;
 }

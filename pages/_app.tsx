@@ -3,11 +3,14 @@ import { NextPage } from 'next'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import ProgressBar from 'nextjs-progressbar'
+import { config } from '@fortawesome/fontawesome-svg-core'
 
 import registerServiceWorker from 'lib/registerServiceWorker'
 import Navbar from 'components/Navbar'
 
 import 'styles/global.scss'
+
+config.autoAddCss = false
 
 const App: NextPage<AppProps> = ({ Component, pageProps }) => {
 	useEffect(() => {

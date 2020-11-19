@@ -1,0 +1,15 @@
+@use 'variables' as *;
+
+.root {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	min-height: calc(100vh - #{$navbar-height + $body-padding * 2});
+}
+
+.title {
+	text-align: center;
+	font-size: 80px;
+	font-weight: 900;
+	color: white;
+}

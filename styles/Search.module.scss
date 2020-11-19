@@ -1,0 +1,59 @@
+@use 'colors';
+
+.root {
+	display: flex;
+	position: relative;
+	height: 38px;
+}
+
+.input {
+	flex-grow: 1;
+	margin-right: 8px;
+	padding: 0 12px 0 34px;
+	font-size: 16px;
+	color: white;
+	background: transparentize(white, 0.9);
+	border-radius: 8px;
+	transition: background 0.3s;
+	
+	&::placeholder {
+		color: transparentize(white, 0.5);
+	}
+	
+	&:hover,
+	&:focus {
+		background: transparentize(white, 0.8);
+		
+		+ .inputIcon {
+			opacity: 1;
+		}
+	}
+}
+
+.inputIcon {
+	position: absolute;
+	top: 11px;
+	left: 10px;
+	color: white;
+	opacity: 0.7;
+	transition: opacity 0.3s;
+}
+
+.button {
+	flex-shrink: 0;
+	width: 38px;
+	color: white;
+	background: colors.$blue;
+	border-radius: 8px;
+	transition: color 0.3s, background 0.3s, transform 0.3s;
+	
+	&:hover {
+		color: colors.$blue;
+		background: white;
+		transform: translateY(-2px);
+	}
+}
+
+.buttonIcon {
+	transform: scale(1.1);
+}
