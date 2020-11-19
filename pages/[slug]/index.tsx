@@ -7,6 +7,8 @@ import User from 'models/User'
 import getRoom from 'lib/getRoom'
 import getUser from 'lib/getUser'
 
+import styles from 'styles/Room.module.scss'
+
 export interface RoomPageProps {
 	room: Room | null
 	owner: User | null
@@ -21,6 +23,7 @@ const RoomPage: NextPage<RoomPageProps> = ({ room, owner }) => {
 			<Head>
 				<title key="title">{room.name} - babble</title>
 			</Head>
+			<h1 className={styles.name}>{room.name}</h1>
 		</>
 	)
 }
