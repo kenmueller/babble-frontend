@@ -1,0 +1,20 @@
+.root {
+	display: block;
+	width: 100%;
+	padding: 8px 12px;
+	resize: none;
+	font-size: 16px;
+	color: white;
+	background: transparentize(white, 0.9);
+	border-radius: 8px;
+	transition: background 0.3s;
+	
+	&::placeholder {
+		color: transparentize(white, 0.5);
+	}
+	
+	&:hover,
+	&:focus {
+		background: transparentize(white, 0.8);
+	}
+}
