@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -11,6 +11,7 @@ import Room from 'models/Room'
 import User from 'models/User'
 import getRoom from 'lib/getRoom'
 import getUser from 'lib/getUser'
+import { requestAudio } from 'lib/media'
 import useCurrentUser from 'hooks/useCurrentUser'
 import LocalVideo from 'components/LocalVideo'
 
@@ -27,16 +28,33 @@ const RoomPage: NextPage<RoomPageProps> = ({ room, owner }) => {
 	
 	const currentUser = useCurrentUser()
 	
+	const [users, setUsers] = useState<User[] | null>(null)
+	
 	useEffect(() => {
+		if (currentUser === undefined)
+			return
+		
 		const io = IO(process.env.NEXT_PUBLIC_API_URL, {
-			query: `room=${room.slug}`
+			query: {
+				uid: currentUser?.uid,
+				room: room.slug
+			}
 		})
 		
-		// io.on('join', )
-	}, [])
+		const peerConnection = new RTCPeerConnection()
+		
+		io.on('users', setUsers)
+		
+		requestAudio()
+			.then(stream => {
+				
+			})
+		
+		return () => io.disconnect()
+	}, [currentUser, room.slug, setUsers])
 	
 	return (
-		<>
+		<main className={styles.root}>
 			<Head>
 				<link key="api-preconnect" rel="preconnect" href={process.env.NEXT_PUBLIC_API_URL} />
 				<title key="title">{room.name} - babble</title>
@@ -62,8 +80,13 @@ const RoomPage: NextPage<RoomPageProps> = ({ room, owner }) => {
 					: <span className={styles.ownerName} aria-disabled>anonymous</span>
 				}
 			</p>
-			<LocalVideo />
-		</>
+			{users
+				? users.map(user => (
+					<></>
+				))
+				: <p className={styles.loading}>joining...</p>
+			}
+		</main>
 	)
 }
 

@@ -1,10 +1,10 @@
-@use 'variables' as *;
+@use 'sizes';
 
 .root {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	min-height: calc(100vh - #{$navbar-height + $body-padding * 2});
+	min-height: sizes.$content-height;
 }
 
 .title {
