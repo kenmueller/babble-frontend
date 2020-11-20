@@ -3,12 +3,14 @@ import { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import { io as IO } from 'socket.io-client'
+import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
 import NotFound from 'pages/404'
 import Room from 'models/Room'
 import User from 'models/User'
+import SocketUserData from 'models/SocketUserData'
 import getRoom from 'lib/getRoom'
 import getUser from 'lib/getUser'
 import { requestAudio } from 'lib/media'
@@ -28,11 +30,13 @@ const RoomPage: NextPage<RoomPageProps> = ({ room, owner }) => {
 	
 	const currentUser = useCurrentUser()
 	
-	const [users, setUsers] = useState<User[] | null>(null)
+	const [users, setUsers] = useState<SocketUserData[] | null>(null)
 	
 	useEffect(() => {
 		if (currentUser === undefined)
 			return
+		
+		let _users: SocketUserData[] = []
 		
 		const io = IO(process.env.NEXT_PUBLIC_API_URL, {
 			query: {
@@ -41,14 +45,24 @@ const RoomPage: NextPage<RoomPageProps> = ({ room, owner }) => {
 			}
 		})
 		
-		const peerConnection = new RTCPeerConnection()
+		io.on('users', (users: SocketUserData[]) => {
+			_users = users
+			setUsers(users)
+		})
 		
-		io.on('users', setUsers)
+		io.on('join', (id: string, users: SocketUserData[]) => {
+			toast.dark(`${users.find(user => user.id === id)?.data?.name ?? 'anonymous'} joined`)
+			
+			_users = users
+			setUsers(users)
+		})
 		
-		requestAudio()
-			.then(stream => {
-				
-			})
+		io.on('leave', (id: string, users: SocketUserData[]) => {
+			toast.dark(`${_users.find(user => user.id === id)?.data?.name ?? 'anonymous'} left`)
+			
+			_users = users
+			setUsers(users)
+		})
 		
 		return () => io.disconnect()
 	}, [currentUser, room.slug, setUsers])
