@@ -65,7 +65,7 @@ const EditRoomPage: NextPage<EditRoomPageProps> = ({ room }) => {
 	}, [room, currentUser])
 	
 	return (
-		<>
+		<main className={styles.root}>
 			<Head>
 				<title key="title">edit {room.name} - babble</title>
 			</Head>
@@ -91,7 +91,7 @@ const EditRoomPage: NextPage<EditRoomPageProps> = ({ room }) => {
 				/>
 				<SaveButton className={styles.saveButton} loading={isLoading} disabled={!name} />
 			</form>
-		</>
+		</main>
 	)
 }
 

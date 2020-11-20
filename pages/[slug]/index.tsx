@@ -1,11 +1,8 @@
 import { useState, useEffect } from 'react'
 import { NextPage } from 'next'
 import Head from 'next/head'
-import Link from 'next/link'
 import { io as IO } from 'socket.io-client'
 import { toast } from 'react-toastify'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
 import NotFound from 'pages/404'
 import Room from 'models/Room'
@@ -13,9 +10,8 @@ import User from 'models/User'
 import SocketUserData from 'models/SocketUserData'
 import getRoom from 'lib/getRoom'
 import getUser from 'lib/getUser'
-import { requestAudio } from 'lib/media'
 import useCurrentUser from 'hooks/useCurrentUser'
-import LocalVideo from 'components/LocalVideo'
+import Header from 'components/RoomHeader'
 
 import styles from 'styles/Room.module.scss'
 
@@ -73,33 +69,26 @@ const RoomPage: NextPage<RoomPageProps> = ({ room, owner }) => {
 				<link key="api-preconnect" rel="preconnect" href={process.env.NEXT_PUBLIC_API_URL} />
 				<title key="title">{room.name} - babble</title>
 			</Head>
-			<header className={styles.header}>
-				<h1 className={styles.name}>{room.name}</h1>
-				{currentUser?.uid === room.owner && (
-					<Link href={`/${room.slug}/edit`}>
-						<a className={styles.edit}>
-							<FontAwesomeIcon className={styles.editIcon} icon={faEdit} />
-							edit
-						</a>
-					</Link>
-				)}
-			</header>
-			<p className={styles.owner}>
-				By {owner
+			<Header
+				className={styles.header}
+				currentUser={currentUser}
+				room={room}
+				owner={owner}
+			/>
+			<div className={styles.container}>
+				{users
 					? (
-						<Link href={`/u/${owner.slug}`}>
-							<a className={styles.ownerName}>{owner.name}</a>
-						</Link>
+						<div className={styles.users}>
+							{users.map(user => (
+								<p key={user.id} className={styles.user}>
+									{user.data?.name ?? 'anonymous'}
+								</p>
+							))}
+						</div>
 					)
-					: <span className={styles.ownerName} aria-disabled>anonymous</span>
+					: <p className={styles.loading}>joining...</p>
 				}
-			</p>
-			{users
-				? users.map(user => (
-					<></>
-				))
-				: <p className={styles.loading}>joining...</p>
-			}
+			</div>
 		</main>
 	)
 }

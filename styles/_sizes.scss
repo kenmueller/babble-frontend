@@ -1,8 +1,8 @@
 $max-width: 1000px;
-$body-padding: 20px;
+$padding: 20px;
 
 $navbar-inner-height: 60px;
 $navbar-bottom-border-width: 1px;
 $navbar-height: $navbar-inner-height + $navbar-bottom-border-width;
 
-$content-height: calc(100vh - #{$navbar-height + $body-padding * 2});
+$content-height: calc(100vh - #{$navbar-height});

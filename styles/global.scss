@@ -16,9 +16,7 @@
 
 body {
 	overscroll-behavior: none;
-	max-width: sizes.$max-width;
-	margin: 0 auto;
-	padding: (sizes.$navbar-height + sizes.$body-padding) sizes.$body-padding sizes.$body-padding;
+	padding-top: sizes.$navbar-height;
 	background: black;
 }
 

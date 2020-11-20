@@ -1,3 +1,11 @@
+@use 'sizes';
+
+.root {
+	max-width: sizes.$max-width;
+	margin: 0 auto;
+	padding: sizes.$padding;
+}
+
 .title {
 	font-weight: 900;
 	color: white;

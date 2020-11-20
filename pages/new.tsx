@@ -60,7 +60,7 @@ const NewRoomPage: NextPage = () => {
 	}, [name, setSlug, setIsSlugLoading])
 	
 	return (
-		<>
+		<main className={styles.root}>
 			<Head>
 				<title key="title">create room - babble</title>
 			</Head>
@@ -96,7 +96,7 @@ const NewRoomPage: NextPage = () => {
 					disabled={currentUser === undefined || !slug || !name || isSlugLoading || isLoading}
 				/>
 			</form>
-		</>
+		</main>
 	)
 }
 

@@ -1,0 +1,58 @@
+@use 'sizes';
+
+.root {
+	max-width: sizes.$max-width;
+	width: 100%;
+	margin: 0 auto;
+	padding: 12px sizes.$padding sizes.$padding;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.name {
+	margin-right: 20px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-weight: 900;
+	color: white;
+}
+
+.edit {
+	flex-shrink: 0;
+	padding: 8px 12px;
+	text-decoration: none;
+	font-weight: 900;
+	color: white;
+	border: 1px solid #333;
+	border-radius: 8px;
+	transition: transform 0.3s;
+	
+	&:hover {
+		transform: translateY(-2px);
+	}
+}
+
+.editIcon {
+	margin-right: 6px;
+}
+
+.owner {
+	margin-top: 12px;
+	font-weight: 900;
+	color: transparentize(white, 0.4);
+}
+
+.ownerName {
+	display: inline-block;
+	color: white;
+	transition: transform 0.3s;
+	
+	&:not([aria-disabled]):hover {
+		transform: translateX(2px);
+	}
+}
