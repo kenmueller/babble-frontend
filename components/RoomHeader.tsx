@@ -23,14 +23,22 @@ export interface RoomHeaderProps {
 
 const RoomHeader = ({ className, currentUser, room, owner }: RoomHeaderProps) => {
 	const [isSubscribed, _setIsSubscribed] = useState<boolean | null>(null)
+	const [isSubscribeDisabled, setIsSubscribeDisabled] = useState(false)
 	
-	const setIsSubscribed = useCallback((isSubscribed: boolean) => {
+	const setIsSubscribed = useCallback(async (isSubscribed: boolean) => {
 		if (!currentUser)
 			return
 		
-		_setIsSubscribed(isSubscribed)
-		subscribeToRoom(currentUser.uid, room.slug, isSubscribed)
-	}, [_setIsSubscribed])
+		try {
+			setIsSubscribeDisabled(true)
+			await subscribeToRoom(currentUser.uid, room.slug, isSubscribed)
+			_setIsSubscribed(isSubscribed)
+		} catch ({ message }) {
+			toast.error(message)
+		} finally {
+			setIsSubscribeDisabled(false)
+		}
+	}, [currentUser, room.slug, setIsSubscribeDisabled, _setIsSubscribed])
 	
 	useEffect(() => {
 		if (!currentUser)
@@ -45,6 +53,11 @@ const RoomHeader = ({ className, currentUser, room, owner }: RoomHeaderProps) =>
 		return () => { shouldContinue = false }
 	}, [currentUser, room.slug, _setIsSubscribed])
 	
+	useEffect(() => {
+		if ('Notification' in window)
+			setIsSubscribeDisabled(Notification.permission === 'denied')
+	}, [setIsSubscribeDisabled])
+	
 	return (
 		<div className={cx(styles.root, className)}>
 			<header className={styles.header}>
@@ -52,7 +65,7 @@ const RoomHeader = ({ className, currentUser, room, owner }: RoomHeaderProps) =>
 				<Switch
 					className={styles.subscribe}
 					label="subscribe"
-					isDisabled={isSubscribed === null}
+					isDisabled={isSubscribeDisabled || isSubscribed === null}
 					isOn={isSubscribed === true}
 					setIsOn={setIsSubscribed}
 				/>
