@@ -32,14 +32,13 @@ const RoomPage: NextPage<RoomPageProps> = ({ room, owner }) => {
 		if (currentUser === undefined)
 			return
 		
+		const query: Record<string, string> = { room: room.slug }
 		let _users: SocketUserData[] = []
 		
-		const io = IO(process.env.NEXT_PUBLIC_API_URL, {
-			query: {
-				uid: currentUser?.uid,
-				room: room.slug
-			}
-		})
+		if (currentUser)
+			query.uid = currentUser.uid
+		
+		const io = IO(process.env.NEXT_PUBLIC_API_URL, { query })
 		
 		io.on('users', (users: SocketUserData[]) => {
 			_users = users
