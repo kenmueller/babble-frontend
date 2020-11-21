@@ -8,6 +8,7 @@ import cx from 'classnames'
 import Room from 'models/Room'
 import User from 'models/User'
 import firebase from 'lib/firebase'
+import subscribeToRoom from 'lib/subscribeToRoom'
 import isSubscribedToRoom from 'lib/isSubscribedToRoom'
 import Switch from './Switch'
 
@@ -24,8 +25,11 @@ const RoomHeader = ({ className, currentUser, room, owner }: RoomHeaderProps) =>
 	const [isSubscribed, _setIsSubscribed] = useState<boolean | null>(null)
 	
 	const setIsSubscribed = useCallback((isSubscribed: boolean) => {
+		if (!currentUser)
+			return
+		
 		_setIsSubscribed(isSubscribed)
-		// TODO: Subscribe
+		subscribeToRoom(currentUser.uid, room.slug, isSubscribed)
 	}, [_setIsSubscribed])
 	
 	useEffect(() => {
