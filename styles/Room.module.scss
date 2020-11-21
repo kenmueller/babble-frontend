@@ -12,6 +12,7 @@
 
 .container {
 	flex-grow: 1;
+	display: flex;
 	border-top: 1px solid #333;
 }
 
@@ -24,8 +25,8 @@
 	align-content: center;
 }
 
-.user {
-	color: white;
+.chat {
+	flex-shrink: 0;
 }
 
 .loading {

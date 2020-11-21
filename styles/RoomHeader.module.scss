@@ -9,12 +9,11 @@
 
 .header {
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
 }
 
 .name {
-	margin-right: 20px;
+	margin-right: auto;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -22,8 +21,13 @@
 	color: white;
 }
 
+.subscribe,
 .edit {
 	flex-shrink: 0;
+	margin-left: 20px;
+}
+
+.edit {
 	padding: 8px 12px;
 	text-decoration: none;
 	font-weight: 900;
